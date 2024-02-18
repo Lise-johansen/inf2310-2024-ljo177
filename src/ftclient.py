@@ -42,7 +42,8 @@ def download_file(file_name):
                 decrypted_file_content = rsa_encryption.decrypt_aes(file_content, private_key)
 
                 # Save the received data to a file
-                with open("message.txt", "wb") as file:
+                new_file_name = "decrypted_" + file_name
+                with open(new_file_name, "wb") as file:
                     file.write(decrypted_file_content)
 
                     print(f"File downloaded and decrypted successfully")
@@ -51,5 +52,6 @@ def download_file(file_name):
             print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    file_name = "message.txt"
+    # file_name = "message.txt"
+    file_name = "Tux.png"
     download_file(file_name)
