@@ -52,6 +52,7 @@ def download_file(file_name):
             print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
+    #Do this priteier
     # file_name = "message.txt"
     file_name = "Tux.png"
     download_file(file_name)
