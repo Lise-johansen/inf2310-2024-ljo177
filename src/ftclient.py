@@ -2,8 +2,8 @@ import socket
 from rsa_and_aes_encryption import RSAEncryption
 
 # Set the address and port
-HOST = '127.0.0.1'
-PORT = 12345
+# HOST = '127.0.0.1'
+# PORT = 12345
 
 def download_file(file_name):
     rsa_encryption = RSAEncryption()
@@ -52,7 +52,75 @@ def download_file(file_name):
             print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    #Do this priteier
-    # file_name = "message.txt"
-    file_name = "Tux.png"
+    # Get the address and port from the user
+    user_input_HOST = input("Enter the HOST address: ")
+    user_input_PORT = input("Enter the PORT number: ")
+
+    try:
+        # Validate the input for HOST
+        if user_input_HOST == '127.0.0.1':
+            HOST = '127.0.0.1'
+        else:
+            raise ValueError(f"{user_input_HOST} is the wrong HOST address")
+
+        # Validate the input for PORT
+        if int(user_input_PORT) == 12345:
+            PORT = 12345
+        else:
+            raise ValueError(f"{user_input_PORT} is the wrong PORT number")
+
+    except ValueError as e:
+        print(f"Validation error: {e}")
+        exit()  # Terminate the program for incorrect input
+
+    file_name = None
+
+    while file_name not in ["message.txt", "Tux.png"]:
+        user_input = input("Enter 1 to download the text file or 2 to download the image file: ")
+        
+        if user_input == "1":
+            file_name = "message.txt"
+        elif user_input == "2":
+            file_name = "Tux.png"
+        else:
+            print("Invalid input. Please enter 1 or 2.")
+
+    # Now, you have a valid file_name, and you can proceed to download the file.
     download_file(file_name)
+
+
+#     # file_name = "message.txt"
+#     # # file_name = "Tux.png"
+
+#     # download_file(file_name)
+#     # Get the address and port from the user
+#     HOST = input("Enter the HOST address: ")
+#     PORT = input("Enter the PORT number: ")
+
+#     # Validate the input
+#     try:
+#         PORT = int(PORT)
+#     except ValueError:
+#         print(f"{PORT} is not a valid PORT number")
+#         PORT = None
+
+#     if not HOST:
+#         print("HOST address cannot be empty")
+
+#     if not PORT:
+#         print("PORT number cannot be empty")
+
+#     file_name = None
+
+# while file_name not in ["message.txt", "Tux.png"]:
+#     user_input = input("Enter 1 to download the text file or 2 to download the image file: ")
+    
+#     if user_input == "1":
+#         file_name = "message.txt"
+#     elif user_input == "2":
+#         file_name = "Tux.png"
+#     else:
+#         print("Invalid input. Please enter 1 or 2.")
+
+# # Now, you have a valid file_name, and you can proceed to download the file.
+# download_file(file_name)
