@@ -3,6 +3,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives import hashes, hmac
 import os
 
 class RSAEncryption:
@@ -12,6 +13,20 @@ class RSAEncryption:
 
         # Generate an AES key
         self.aes_key = aes_key
+
+    def generate_hmac(self,secret_key, data):
+        h = hmac.HMAC(secret_key, hashes.SHA256(), backend=default_backend())
+        h.update(data)
+        return h.finalize()
+    
+    def verify_hmac(self,secret_key, data, tag):
+        h = hmac.HMAC(secret_key, hashes.SHA256(), backend=default_backend())
+        h.update(data)
+        try:
+            h.verify(tag)
+            return True
+        except:
+            return False
 
     def generate_rsa_key_pair(self):
         # Generate an RSA key pair and return the private and public keys
