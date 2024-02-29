@@ -1,6 +1,6 @@
 import socket
 import os
-from rsa_and_aes_encryption import RSAEncryption
+from crypto_utils import Cryptoutils
 
 def start_server():
     # Set the address and port
@@ -14,7 +14,7 @@ def start_server():
     print(f"Server listening on {HOST}:{PORT}")
 
     # Create an RSA key pair and an AES key
-    rsa_encryption = RSAEncryption()
+    rsa_encryption = Cryptoutils()
     private_key, public_key = rsa_encryption.generate_rsa_key_pair()
 
     while True:
@@ -46,13 +46,14 @@ def start_server():
                     # Encrypt the file data with the client's public key
                     encrypted_file_data = rsa_encryption.encrypt_aes(file_data, deserialize_public_key)
                     client_socket.sendall(encrypted_file_data)
-                    print(f"Encrypted file sent successfully")
+                    print(f"Encrypted file sent to client successfully")
 
             except FileNotFoundError:
                 client_socket.sendall(b"File not found")
 
         except Exception as e:
             print(f"An error occurred: {e}")
+            
         finally:
             # Close the connection
             client_socket.close()

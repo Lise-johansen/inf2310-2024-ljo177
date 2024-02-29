@@ -6,27 +6,13 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import hashes, hmac
 import os
 
-class RSAEncryption:
+class Cryptoutils:
     def __init__(self, aes_key=None):
         # Generate an RSA key pair
         self.private_key, self.public_key = self.generate_rsa_key_pair()
 
         # Generate an AES key
         self.aes_key = aes_key
-
-    def generate_hmac(self,secret_key, data):
-        h = hmac.HMAC(secret_key, hashes.SHA256(), backend=default_backend())
-        h.update(data)
-        return h.finalize()
-    
-    def verify_hmac(self,secret_key, data, tag):
-        h = hmac.HMAC(secret_key, hashes.SHA256(), backend=default_backend())
-        h.update(data)
-        try:
-            h.verify(tag)
-            return True
-        except:
-            return False
 
     def generate_rsa_key_pair(self):
         # Generate an RSA key pair and return the private and public keys
@@ -79,9 +65,6 @@ class RSAEncryption:
         # Generate a symmetric key (random bytes)
         generate_symmetric_key = os.urandom(16)
 
-        # print("Symmetric key: ", generate_symmetric_key) #this
-        # print("Public key: ", public_key) #this
-
         # Encrypt the symmetric key with the public key (using RSA OAEP padding)
         encrypted_symmetric_key = public_key.encrypt(
             generate_symmetric_key,
@@ -92,9 +75,6 @@ class RSAEncryption:
             )
         )
 
-        # print("Encrypted symmetric key: ", encrypted_symmetric_key)
-
-        # Generate a random IV for AES (initialization a random vector)
         iv = os.urandom(16)
 
         # Encrypt the plaintext with the symmetric key and the IV (using AES CFB mode)
